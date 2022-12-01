@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { useState } from "react";
 
-function App() {
+function Card(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="cardbox">
+      <div>{props.todo.comment}</div>
     </div>
   );
 }
+
+const App = () => {
+  const [todos, setTodos] = useState([
+    { id: 1, comment: "react 모의고사" },
+    { id: 2, comment: "react 모의고사" },
+    { id: 3, comment: "react 모의고사" },
+  ]);
+  const [comment, setComment] = useState("");
+  const addCommentHandler = () => {
+    const list = {
+      id: todos.length + 1,
+      comment: comment,
+    };
+    setTodos([...todos, list]);
+  };
+
+  return (
+    <div className="main">
+      <div className="center">
+        <input
+          type="text"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          className="inputbox"
+        />
+        <button onClick={addCommentHandler} className="btn">
+          추가하기
+        </button>
+      </div>
+      {todos.map((todo) => {
+        return <Card todo={todo} key={todo.id} />;
+      })}
+    </div>
+  );
+};
 
 export default App;
